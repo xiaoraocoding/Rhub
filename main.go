@@ -1,24 +1,24 @@
 package main
 
 import (
-	"net/http"
+	"Rhub/bootstrap"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// 初始化 Gin 实例
-	r := gin.Default()
 
-	// 注册一个路由
-	r.GET("/", func(c *gin.Context) {
+	// new 一个 Gin Engine 实例
+	router := gin.New()
 
-		// 以 JSON 格式响应
-		c.JSON(http.StatusOK, gin.H{
-			"Hello": "World!",
-		})
-	})
+	// 初始化路由绑定
+	bootstrap.SetupRoute(router)
 
 	// 运行服务
-	r.Run()
+	err := router.Run(":3000")
+	if err != nil {
+		// 错误处理，端口被占用了或者其他错误
+		fmt.Println(err.Error())
+	}
 }
